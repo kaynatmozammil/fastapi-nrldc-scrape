@@ -1,6 +1,7 @@
+
 from sqlalchemy.orm import Session
 from app.db.models import PspData
-from datetime import datetime, date
+from datetime import datetime, date , timedelta
 
 def insert_data(db: Session, records: list):
     if not records:
@@ -12,14 +13,13 @@ def insert_data(db: Session, records: list):
     entries = []
     for rec in records:
         report_date = rec.get("report_date")
-
-    if isinstance(report_date, str):
-        report_date = datetime.strptime(report_date, "%Y-%m-%d")
-    elif isinstance(report_date, date) and not isinstance(report_date, datetime):
-        report_date = datetime.combine(report_date, datetime.min.time())
-    elif not isinstance(report_date, datetime):
-        report_date = datetime.now()
-        
+        if isinstance(report_date, str):
+            report_date = datetime.strptime(report_date, "%Y-%m-%d").date()
+        elif isinstance(report_date, datetime):
+            report_date = report_date.date()
+        elif not isinstance(report_date, date):
+            report_date = date.today()
+        report_date = report_date - timedelta(days=1)
         entry = PspData(
             report_date=report_date,
             state=rec.get("State"),

@@ -1,13 +1,13 @@
 from app.db.database import Base
 from sqlalchemy import Column , Integer , String  , Date , TIMESTAMP , func , Float
 from app.db.database import Base
-from sqlalchemy import Column, Integer, String, DateTime, TIMESTAMP, Float, func
+from sqlalchemy import Column, Integer, String, Date, TIMESTAMP, Float, func
 
 class PspData(Base):
     __tablename__ = "psp_data"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    report_date = Column(DateTime, nullable=False)
+    report_date = Column(Date, nullable=False)
     state = Column(String, nullable=False)
     Thermal = Column(Float, nullable=True)
     Hydro = Column(Float, nullable=True)
