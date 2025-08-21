@@ -2,11 +2,12 @@ from fastapi import FastAPI, Depends
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
-
+from app.db.database import engine
 from app.db import database, models
 from app.services import scraper, pdf_parser, data_cleaner, db_handler
 
-models.Base.metadata.create_all(bind=database.engine)
+models.Base.metadata.drop_all(bind=engine)   # drop old tables
+models.Base.metadata.create_all(bind=engine)  # create new ones
 
 app = FastAPI(title="NRLDC PSP Report API", debug=True)
 
@@ -17,7 +18,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
 
 @app.post("/nrldc_data")
 def process_nrldc_data(db: Session = Depends(get_db)):
