@@ -1,7 +1,7 @@
 from app.db.database import Base
-from sqlalchemy import Column , Integer , String  , Date , TIMESTAMP , func , Float
+from sqlalchemy import Column , Integer , String  , Date , TIMESTAMP , func , Float 
 from app.db.database import Base
-from sqlalchemy import Column, Integer, String, Date, TIMESTAMP, Float, func
+from datetime import datetime
 
 class PspData(Base):
     __tablename__ = "psp_data"
@@ -23,5 +23,5 @@ class PspData(Base):
     Shortage = Column(Float, nullable=True)
     Consumption = Column(Float, nullable=True)
 
-    inserted_at = Column(TIMESTAMP, server_default=func.now())
+    inserted_at = Column(TIMESTAMP, default=datetime.now) 
 
